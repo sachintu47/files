@@ -1,0 +1,115 @@
+<!-- Clean, minimal DNF5 architecture diagram: librepo, libdnf, libsolv, dnf5 CLI, librpm. Left-to-right flow, aligned boxes and straight arrows. Ampersands escaped. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-label="Clean DNF5 architecture diagram">
+  <style>
+    .bg { fill: #ffffff; }
+    .box { fill: #f6fbff; stroke: #1f6feb; stroke-width: 2; rx:10; ry:10; }
+    .sub { fill: #ffffff; stroke: #dceeff; stroke-width: 1.2; rx:6; ry:6; }
+    .title { font: 700 14px Arial, Helvetica, sans-serif; fill: #0b3566; }
+    .label { font: 13px Arial, Helvetica, sans-serif; fill: #0e3a5a; }
+    .note { font: 12px Arial, Helvetica, sans-serif; fill: #294760; }
+    .arrow { stroke: #1f6feb; stroke-width: 3; fill: none; marker-end: url(#m); }
+    .dashed { stroke: #6b7280; stroke-width: 2; stroke-dasharray: 5 5; fill: none; }
+  </style>
+
+  <defs>
+    <marker id="m" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f6feb"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="420"/>
+
+  <!-- Repositories -->
+  <g transform="translate(40,140)">
+    <rect class="box" x="0" y="0" width="180" height="80"/>
+    <text x="12" y="26" class="title">Remote Repositories</text>
+    <text x="12" y="48" class="label">repomd • metadata • packages</text>
+  </g>
+
+  <!-- librepo -->
+  <g transform="translate(260,140)">
+    <rect class="box" x="0" y="0" width="160" height="80"/>
+    <text x="12" y="26" class="title">librepo</text>
+    <text x="12" y="48" class="label">fetch &amp; download</text>
+  </g>
+
+  <!-- libdnf (center) -->
+  <g transform="translate(460,100)">
+    <rect class="box" x="0" y="0" width="300" height="140"/>
+    <text x="16" y="26" class="title">libdnf (libdnf5)</text>
+    <text x="16" y="48" class="label">orchestration • transaction manager</text>
+
+    <!-- Metadata Store -->
+    <g transform="translate(18,64)">
+      <rect class="sub" x="0" y="0" width="130" height="44"/>
+      <text x="10" y="20" class="label">Metadata Store</text>
+      <text x="10" y="36" class="note">repo metadata &amp; pkg lists</text>
+    </g>
+
+    <!-- Transaction Manager -->
+    <g transform="translate(152,64)">
+      <rect class="sub" x="0" y="0" width="130" height="44"/>
+      <text x="10" y="20" class="label">Transaction</text>
+      <text x="10" y="36" class="note">history &amp; audit</text>
+    </g>
+
+    <text x="18" y="120" class="note">integrates librepo &amp; libsolv</text>
+  </g>
+
+  <!-- libsolv below libdnf -->
+  <g transform="translate(540,260)">
+    <rect class="box" x="0" y="0" width="120" height="64"/>
+    <text x="12" y="26" class="title">libsolv</text>
+    <text x="12" y="44" class="label">dependency solver</text>
+  </g>
+
+  <!-- dnf5 CLI above libdnf -->
+  <g transform="translate(820,80)">
+    <rect class="box" x="0" y="0" width="220" height="64"/>
+    <text x="14" y="26" class="title">dnf5 CLI &amp; Plugins</text>
+    <text x="14" y="46" class="label">user commands</text>
+  </g>
+
+  <!-- librpm & rpmdb (right) -->
+  <g transform="translate(1060,120)">
+    <rect class="box" x="0" y="0" width="120" height="120"/>
+    <text x="10" y="26" class="title">librpm / rpm</text>
+    <text x="10" y="48" class="label">low-level installs • rpmdb</text>
+
+    <rect class="sub" x="12" y="72" width="44" height="32"/>
+    <text x="16" y="94" class="note">rpmdb</text>
+
+    <rect class="sub" x="68" y="72" width="36" height="32"/>
+    <text x="72" y="94" class="note">system</text>
+  </g>
+
+  <!-- Arrows: aligned and non-overlapping -->
+  <path class="arrow" d="M220 180 L260 180" />
+  <path class="arrow" d="M420 180 L460 180" />
+  <path class="arrow" d="M760 140 L820 140" />
+  <path class="arrow" d="M1000 160 L1060 160" />
+
+  <!-- librepo -> libdnf gentle diagonal -->
+  <path class="arrow" d="M420 170 L500 150" />
+
+  <!-- libdnf -> libsolv (vertical) -->
+  <path class="arrow" d="M610 220 L610 260" />
+
+  <!-- libdnf -> librpm (straight) -->
+  <path class="arrow" d="M760 160 L1060 160" />
+
+  <!-- dnf5 CLI -> libdnf -->
+  <path class="arrow" d="M820 112 L760 140" />
+
+  <!-- dashed transaction history link -->
+  <path class="dashed" d="M640 140 L980 140" />
+  <text x="700" y="136" class="note">transaction history / audit</text>
+
+  <!-- Arrow labels -->
+  <text x="240" y="170" class="note">metadata &amp; packages</text>
+  <text x="490" y="170" class="note">fetched metadata</text>
+  <text x="880" y="150" class="note">invoke installer</text>
+
+  <!-- Footer -->
+  <text x="16" y="404" class="note">Left→Right: Repos → librepo → libdnf (integrates libsolv) → librpm/rpmdb. dnf5 CLI drives libdnf. Clean layout for slide embedding.</text>
+</svg>
